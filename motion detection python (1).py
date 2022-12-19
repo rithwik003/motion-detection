@@ -17,7 +17,7 @@ while True:
     threshold_frame = cv2.dilate(threshold_frame, None, iterations=2)
     (cnts, _) = cv2.findContours(threshold_frame.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     for contour in cnts:
-        if cv2.contourArea(contour) < 1500:
+        if cv2.contourArea(contour) < 8000:
             continue
         motion = 1
         b += 1      
@@ -27,14 +27,14 @@ while True:
         cv2.circle(frame, center, radius, (255, 0, 0), 2)
     cv2.imshow('Difference Frame', difference_frame)
     cv2.imshow('Color Frame', frame)
+    cv2.imshow('threshold Frame',threshold_frame)
     if 2 > b > 0:
         print('motion detected')
         hour = int(datetime.datetime.now().hour)
         minute = int(datetime.datetime.now().minute)
         minutes = minute + 1
         try:
-            pywhatkit.sendwhatmsg('+91mobile number','alert! motion detected', hour,minutes)
-
+            pywhatkit.sendwhatmsg('+91_mobile_number','alert! motion detected', hour,minutes)
             print ('Successfully Sent!')
         except:
             print ('An Unexpected Error!')
